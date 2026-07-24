@@ -7,25 +7,25 @@ interface BadgeProps {
 }
 
 const colorMap: Record<string, string> = {
-  scheduled: 'bg-blue-100 text-blue-700',
-  completed: 'bg-green-100 text-green-700',
-  cancelled: 'bg-red-100 text-red-700',
-  confirmed: 'bg-green-100 text-green-700',
-  pending: 'bg-yellow-100 text-yellow-700',
-  declined: 'bg-red-100 text-red-700',
-  paid: 'bg-green-100 text-green-700',
-  cash: 'bg-orange-100 text-orange-700',
-  bizum: 'bg-purple-100 text-purple-700',
-  income: 'bg-green-100 text-green-700',
-  expense: 'bg-red-100 text-red-700',
+  scheduled: 'bg-[#F5F5F5] text-[#666666] border border-[#DDDDDD]',
+  completed: 'bg-[#F5F5F5] text-[#333333] border border-[#DDDDDD]',
+  cancelled: 'bg-[#C00000]/10 text-[#C00000]',
+  confirmed: 'bg-[#F5F5F5] text-[#333333] border border-[#DDDDDD]',
+  pending: 'bg-[#F5F5F5] text-[#666666] border border-[#DDDDDD]',
+  declined: 'bg-[#C00000]/10 text-[#C00000]',
+  paid: 'bg-[#F5F5F5] text-[#333333] border border-[#DDDDDD]',
+  cash: 'bg-[#F5F5F5] text-[#666666] border border-[#DDDDDD]',
+  bizum: 'bg-[#F5F5F5] text-[#666666] border border-[#DDDDDD]',
+  income: 'bg-[#F5F5F5] text-[#333333] border border-[#DDDDDD]',
+  expense: 'bg-[#C00000]/10 text-[#C00000]',
 }
 
 export function Badge({ status, className }: BadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-        colorMap[status] || 'bg-gray-100 text-gray-700',
+        'inline-flex items-center px-2.5 py-0.5 rounded text-xs font-semibold',
+        colorMap[status] || 'bg-[#F5F5F5] text-[#666666]',
         className
       )}
     >

@@ -42,17 +42,17 @@ export function PotSection({ balance, transactions, isAdmin, onUpdate }: PotSect
 
   return (
     <>
-      <Card className="bg-primary/5 border-primary/20">
-        <CardContent className="space-y-1 text-center">
-          <p className="text-sm text-muted-foreground">Saldo de la pota</p>
-          <p className={`text-3xl font-bold ${balance >= 0 ? 'text-success' : 'text-danger'}`}>
+      <Card>
+        <CardContent className="space-y-1 text-center py-6">
+          <p className="text-sm text-[#666666]">Saldo de la pota</p>
+          <p className={`text-3xl font-bold ${balance >= 0 ? 'text-[#333333]' : 'text-[#C00000]'}`}>
             {formatCurrency(balance)}
           </p>
         </CardContent>
       </Card>
 
       <div className="flex items-center justify-between">
-        <h2 className="font-semibold">Moviments</h2>
+        <h2 className="font-semibold text-[#333333]">Moviments</h2>
         {isAdmin && (
           <Button size="sm" onClick={() => setModalOpen(true)}>+ Afegir</Button>
         )}
@@ -60,7 +60,7 @@ export function PotSection({ balance, transactions, isAdmin, onUpdate }: PotSect
 
       <div className="space-y-2">
         {transactions.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-4">
+          <p className="text-sm text-[#666666] text-center py-4">
             No hi ha moviments registrats.
           </p>
         ) : (
@@ -68,14 +68,14 @@ export function PotSection({ balance, transactions, isAdmin, onUpdate }: PotSect
             <Card key={tx.id}>
               <CardContent className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <p className="text-sm font-medium">{tx.description}</p>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <p className="text-sm font-medium text-[#333333]">{tx.description}</p>
+                  <div className="flex items-center gap-2 text-xs text-[#666666]">
                     <Badge status={tx.type} />
                     <span>{formatDate(tx.created_at)}</span>
                   </div>
                 </div>
                 <span className={`font-semibold ${
-                  tx.type === 'income' ? 'text-success' : 'text-danger'
+                  tx.type === 'income' ? 'text-[#333333]' : 'text-[#C00000]'
                 }`}>
                   {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
                 </span>

@@ -14,11 +14,11 @@ export default function TreasuryPage() {
   return (
     <AppLayout>
       <div className="space-y-4">
-        <h1 className="text-xl font-bold">Tresoreria</h1>
+        <h1 className="text-xl font-bold text-[#333333]">Tresoreria</h1>
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <div className="size-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+            <div className="size-8 border-2 border-[#C00000] border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
           <>
@@ -30,7 +30,7 @@ export default function TreasuryPage() {
             />
 
             <div>
-              <h2 className="font-semibold mb-3">
+              <h2 className="font-semibold text-[#333333] mb-3">
                 Deutes pendents ({debts.length})
               </h2>
               <DebtList debts={debts} isAdmin={isAdmin} onUpdate={refetch} />

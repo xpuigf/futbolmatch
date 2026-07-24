@@ -9,10 +9,10 @@ export default function NewMatchPage() {
     <AppLayout>
       <div className="space-y-4">
         <div className="flex items-center gap-2">
-          <Link href="/dashboard" className="text-muted-foreground hover:text-foreground">
+          <Link href="/dashboard" className="text-[#C00000] hover:text-[#990000] text-sm font-medium">
             ← Tornar
           </Link>
-          <h1 className="text-xl font-bold">Nou partit</h1>
+          <h1 className="text-xl font-bold text-[#333333]">Nou partit</h1>
         </div>
         <CreateMatchForm />
       </div>

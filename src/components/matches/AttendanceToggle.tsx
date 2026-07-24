@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/Button'
-import { ATTENDANCE_STATUS, STATUS_LABELS } from '@/lib/constants'
+import { ATTENDANCE_STATUS } from '@/lib/constants'
 
 interface AttendanceToggleProps {
   matchId: string
@@ -44,7 +44,7 @@ export function AttendanceToggle({ matchId, currentStatus, onUpdate }: Attendanc
 
   return (
     <div className="space-y-2">
-      <p className="text-sm font-medium">La teva assistència</p>
+      <p className="text-sm font-medium text-[#333333]">La teva assistència</p>
       <div className="flex gap-2">
         {options.map(({ value, emoji, label }) => {
           const isActive = currentStatus === value

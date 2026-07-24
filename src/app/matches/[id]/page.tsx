@@ -47,7 +47,7 @@ export default function MatchDetailPage() {
     return (
       <AppLayout>
         <div className="flex justify-center py-12">
-          <div className="size-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          <div className="size-8 border-2 border-[#C00000] border-t-transparent rounded-full animate-spin" />
         </div>
       </AppLayout>
     )
@@ -60,14 +60,14 @@ export default function MatchDetailPage() {
           <CardContent className="space-y-3">
             <div className="flex items-start justify-between">
               <div>
-                <h1 className="text-xl font-bold">{match.location}</h1>
-                <p className="text-muted-foreground">
+                <h1 className="text-xl font-bold text-[#333333]">{match.location}</h1>
+                <p className="text-[#666666]">
                   {formatDate(match.date)} · {formatTime(match.date)}
                 </p>
               </div>
               <Badge status={match.status} />
             </div>
-            <div className="flex gap-4 text-sm">
+            <div className="flex gap-4 text-sm text-[#666666]">
               <span>👥 Fins a {match.max_players} jug.</span>
               <span>💶 {formatCurrency(match.price_per_player)}/jug.</span>
             </div>
@@ -82,8 +82,8 @@ export default function MatchDetailPage() {
 
         <Card>
           <CardContent className="space-y-3">
-            <h3 className="font-semibold">Assistències</h3>
-            <div className="flex gap-4 text-sm">
+            <h3 className="font-semibold text-[#333333]">Assistències</h3>
+            <div className="flex gap-4 text-sm text-[#666666]">
               <span>✅ {confirmed.length} confirmats</span>
               <span>🤷 {pending.length} pendents</span>
               <span>❌ {declined.length} rebutjats</span>
@@ -92,13 +92,13 @@ export default function MatchDetailPage() {
               <div className="space-y-1">
                 {attendance.map((a: any) => (
                   <div key={a.id} className="flex items-center justify-between py-1">
-                    <span className="text-sm">{a.users?.name}</span>
+                    <span className="text-sm text-[#333333]">{a.users?.name}</span>
                     <Badge status={a.status} />
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">Ningú ha respost encara.</p>
+              <p className="text-sm text-[#666666]">Ningú ha respost encara.</p>
             )}
           </CardContent>
         </Card>

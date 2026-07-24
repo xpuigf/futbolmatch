@@ -86,7 +86,7 @@ export function CreateMatchForm() {
         onChange={(e) => setForm({ ...form, price_per_player: parseFloat(e.target.value) || 0 })}
         required
       />
-      {error && <p className="text-sm text-danger">{error}</p>}
+      {error && <p className="text-sm text-[#C00000]">{error}</p>}
       <Button type="submit" className="w-full" loading={loading}>
         Crear partit
       </Button>

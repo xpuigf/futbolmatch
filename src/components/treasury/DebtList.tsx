@@ -27,7 +27,7 @@ export function DebtList({ debts, isAdmin, onUpdate }: DebtListProps) {
       <Card>
         <CardContent className="text-center py-6">
           <p className="text-2xl mb-2">🎉</p>
-          <p className="text-sm text-muted-foreground">No hi ha deutes pendents!</p>
+          <p className="text-sm text-[#666666]">No hi ha deutes pendents!</p>
         </CardContent>
       </Card>
     )
@@ -39,17 +39,17 @@ export function DebtList({ debts, isAdmin, onUpdate }: DebtListProps) {
         <Card key={debt.id}>
           <CardContent className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <p className="text-sm font-medium">
+              <p className="text-sm font-medium text-[#333333]">
                 {debt.users?.name}
               </p>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <div className="flex items-center gap-2 text-xs text-[#666666]">
                 <span>{debt.matches?.location}</span>
                 <span>·</span>
                 <span>{formatDate(debt.matches?.date)}</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-danger">
+              <span className="font-semibold text-[#C00000]">
                 {formatCurrency(debt.amount)}
               </span>
               {isAdmin && (

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { signInWithEmail, signInWithGoogle, signUp } from './AuthGuard'
+import { signInWithEmail, signInWithGoogle, signUp } from '@/components/auth/AuthGuard'
 
 export function LoginForm() {
   const router = useRouter()
@@ -38,11 +38,11 @@ export function LoginForm() {
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
-        <div className="size-14 bg-primary rounded-2xl flex items-center justify-center mx-auto">
-          <span className="text-3xl text-primary-foreground">⚽</span>
+        <div className="size-14 bg-[#C00000] rounded flex items-center justify-center mx-auto">
+          <span className="text-3xl text-white">⚽</span>
         </div>
-        <h1 className="text-2xl font-bold">FutbolMatch Manager</h1>
-        <p className="text-muted-foreground">Inicia sessió per continuar</p>
+        <h1 className="text-2xl font-bold text-[#333333]">FutbolMatch Manager</h1>
+        <p className="text-[#666666]">Inicia sessió per continuar</p>
       </div>
 
       <form onSubmit={handleEmailLogin} className="space-y-4">
@@ -65,7 +65,7 @@ export function LoginForm() {
           required
         />
         {error && (
-          <p className="text-sm text-danger text-center">{error}</p>
+          <p className="text-sm text-[#C00000] text-center">{error}</p>
         )}
         <Button type="submit" className="w-full" loading={loading}>
           Entra amb correu
@@ -74,10 +74,10 @@ export function LoginForm() {
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-border" />
+          <span className="w-full border-t border-[#DDDDDD]" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-background px-2 text-muted-foreground">O continua amb</span>
+          <span className="bg-white px-2 text-[#666666]">O continua amb</span>
         </div>
       </div>
 
@@ -123,15 +123,15 @@ export function RegisterForm() {
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-2xl font-bold">Crear compte</h1>
-        <p className="text-muted-foreground">Registra't per unir-te al grup</p>
+        <h1 className="text-2xl font-bold text-[#333333]">Crear compte</h1>
+        <p className="text-[#666666]">Registra't per unir-te al grup</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input id="name" label="Nom" placeholder="El teu nom" value={name} onChange={(e) => setName(e.target.value)} required />
         <Input id="email" label="Correu electrònic" type="email" placeholder="tue@exemple.cat" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <Input id="password" label="Contrasenya" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={6} />
-        {error && <p className="text-sm text-danger text-center">{error}</p>}
+        {error && <p className="text-sm text-[#C00000] text-center">{error}</p>}
         <Button type="submit" className="w-full" loading={loading}>Crear compte</Button>
       </form>
     </div>

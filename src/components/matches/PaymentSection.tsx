@@ -62,24 +62,24 @@ export function PaymentSection({ match, payments, isAdmin, onUpdate }: PaymentSe
     <Card>
       <CardContent className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="font-semibold">Pagaments</h3>
-          <span className="text-sm text-muted-foreground">
+          <h3 className="font-semibold text-[#333333]">Pagaments</h3>
+          <span className="text-sm text-[#666666]">
             Cobrat: {formatCurrency(totalCollected)}
           </span>
         </div>
 
         {payments.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Encara no hi ha pagaments.</p>
+          <p className="text-sm text-[#666666]">Encara no hi ha pagaments.</p>
         ) : (
           payments.map((p: any) => (
             <div key={p.id} className="flex items-center justify-between py-1">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">{p.users?.name}</span>
+                <span className="text-sm font-medium text-[#333333]">{p.users?.name}</span>
                 <Badge status={p.status} />
                 {p.status === 'paid' && <Badge status={p.method} />}
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm">{formatCurrency(p.amount)}</span>
+                <span className="text-sm text-[#333333]">{formatCurrency(p.amount)}</span>
                 {isAdmin && p.status === 'paid' && (
                   <Button
                     variant="ghost"
@@ -96,8 +96,8 @@ export function PaymentSection({ match, payments, isAdmin, onUpdate }: PaymentSe
         )}
 
         {isAdmin && (
-          <div className="pt-2 border-t border-border">
-            <p className="text-xs text-muted-foreground mb-2">
+          <div className="pt-2 border-t border-[#DDDDDD]">
+            <p className="text-xs text-[#666666] mb-2">
               Marca pagament per a jugadors confirmats:
             </p>
             <div className="flex gap-2">
