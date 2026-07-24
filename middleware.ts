@@ -2,8 +2,8 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
 export async function middleware(request: NextRequest) {
-  // Skip middleware in mock mode
-  if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') {
+  // Skip middleware in mock mode or when Supabase is not configured
+  if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true' || !process.env.NEXT_PUBLIC_SUPABASE_URL) {
     return NextResponse.next({ request })
   }
 
