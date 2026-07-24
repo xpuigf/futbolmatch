@@ -2,5 +2,5 @@
 2:I[44090,["/futbolmatch/_next/static/chunks/05-c3ty_6dwfk.js","/futbolmatch/_next/static/chunks/14mrh2-p_w84d.js","/futbolmatch/_next/static/chunks/29nk_xzatl9ub.js"],"default"]
 3:I[97367,["/futbolmatch/_next/static/chunks/05-c3ty_6dwfk.js","/futbolmatch/_next/static/chunks/14mrh2-p_w84d.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/futbolmatch/_next/static/chunks/29nk_xzatl9ub.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"vQ1IEp52tKp53gwFUbNu7"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/futbolmatch/_next/static/chunks/29nk_xzatl9ub.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"tuDZ07HPyaNgQ7zGNWcXT"}
 5:null
