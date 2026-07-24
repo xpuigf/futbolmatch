@@ -229,20 +229,26 @@ class MockFromBuilder {
   }
 }
 
+// Module-level auth state shared across all mock client instances
+let authCallback: ((event: string, session: any) => void) | null = null
+let currentUser: User | null = null
+
 export function createMockClient() {
-  let authCallback: ((event: string, session: any) => void) | null = null
-  let currentUser: User | null = mockUser
 
   return {
     auth: {
       getUser: async () => {
         await delay()
-        return { data: { user: { id: currentUser?.id, email: currentUser?.email, user_metadata: { name: currentUser?.name } } }, error: null }
+        const u = currentUser
+        return { data: { user: u ? { id: u.id, email: u.email, user_metadata: { name: u.name } } : null }, error: null }
       },
       signInWithPassword: async ({ email, password }: { email: string; password: string }) => {
         await delay(500)
-        const found = mockPlayers.find((u) => u.email === email)
-        if (!found) return { data: { user: null, session: null }, error: { message: 'Credencials incorrectes', status: 400 } }
+        let found = mockPlayers.find((u) => u.email === email)
+        if (!found) {
+          found = { id: `mock-user-${Date.now()}`, email, name: email.split('@')[0], role: email.includes('admin') ? 'admin' : 'player', created_at: new Date().toISOString() }
+          mockPlayers.push(found)
+        }
         currentUser = found
         if (authCallback) authCallback('SIGNED_IN', { user: found })
         return { data: { user: found, session: { access_token: 'mock', refresh_token: 'mock' } }, error: null }
@@ -270,9 +276,9 @@ export function createMockClient() {
       },
       exchangeCodeForSession: async () => {
         await delay()
-        currentUser = mockUser
-        if (authCallback) authCallback('SIGNED_IN', { user: mockUser })
-        return { data: { user: mockUser, session: {} }, error: null }
+        if (!currentUser) currentUser = mockUser
+        if (authCallback) authCallback('SIGNED_IN', { user: currentUser })
+        return { data: { user: currentUser, session: {} }, error: null }
       },
     },
     from: (table: string) => {

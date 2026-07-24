@@ -2,10 +2,15 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { createMockClient } from './mock'
 
-const isMock = process.env.NEXT_PUBLIC_MOCK_MODE === 'true'
+function shouldUseMock(): boolean {
+  if (process.env.NEXT_PUBLIC_MOCK_MODE === 'true') return true
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  if (!url || url === 'placeholder' || url.includes('placeholder')) return true
+  return false
+}
 
 export async function createClient() {
-  if (isMock) return createMockClient()
+  if (shouldUseMock()) return createMockClient()
 
   const cookieStore = await cookies()
 
