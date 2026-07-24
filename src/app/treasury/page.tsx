@@ -3,13 +3,15 @@
 import { AppLayout } from '@/components/layout/AppLayout'
 import { PotSection } from '@/components/treasury/PotSection'
 import { DebtList } from '@/components/treasury/DebtList'
+import { PlayerBalances } from '@/components/treasury/PlayerBalances'
 import { useUser } from '@/hooks/useUser'
-import { useTreasury, usePendingDebts } from '@/hooks/useTreasury'
+import { useTreasury, usePendingDebts, usePlayerBalances } from '@/hooks/useTreasury'
 
 export default function TreasuryPage() {
   const { isAdmin } = useUser()
   const { transactions, balance, loading, refetch } = useTreasury()
   const { debts } = usePendingDebts()
+  const { players } = usePlayerBalances()
 
   return (
     <AppLayout>
@@ -28,6 +30,8 @@ export default function TreasuryPage() {
               isAdmin={isAdmin}
               onUpdate={refetch}
             />
+
+            <PlayerBalances players={players} />
 
             <div>
               <h2 className="font-semibold text-[#333333] mb-3">

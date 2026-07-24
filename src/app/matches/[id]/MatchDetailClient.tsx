@@ -6,6 +6,7 @@ import { AppLayout } from '@/components/layout/AppLayout'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { BizumLink } from '@/components/ui/BizumLink'
 import { AttendanceToggle } from '@/components/matches/AttendanceToggle'
 import { PaymentSection } from '@/components/matches/PaymentSection'
 import { useUser } from '@/hooks/useUser'
@@ -27,8 +28,8 @@ export default function MatchDetailClient() {
     const supabase = createClient()
     const [matchRes, attendanceRes, paymentsRes] = await Promise.all([
       supabase.from('matches').select('*').eq('id', matchId).single(),
-      supabase.from('attendance').select('*, users(name, email)').eq('match_id', matchId).then((r: any) => r.data || []),
-      supabase.from('payments').select('*, users(name, email)').eq('match_id', matchId).then((r: any) => r.data || []),
+      supabase.from('attendance').select('*, users(name, email, phone)').eq('match_id', matchId).then((r: any) => r.data || []),
+      supabase.from('payments').select('*, users(name, email, phone)').eq('match_id', matchId).then((r: any) => r.data || []),
     ])
     setMatch(matchRes.data)
     setAttendance(attendanceRes)
@@ -42,6 +43,11 @@ export default function MatchDetailClient() {
   const confirmed = attendance.filter((a: any) => a.status === 'confirmed')
   const pending = attendance.filter((a: any) => a.status === 'pending')
   const declined = attendance.filter((a: any) => a.status === 'declined')
+
+  function getPaymentStatus(userId: string) {
+    const p = payments.find((pay: any) => pay.user_id === userId)
+    return p ? p.status : null
+  }
 
   if (loading || !match) {
     return (
@@ -89,13 +95,33 @@ export default function MatchDetailClient() {
               <span>❌ {declined.length} rebutjats</span>
             </div>
             {attendance.length > 0 ? (
-              <div className="space-y-1">
-                {attendance.map((a: any) => (
-                  <div key={a.id} className="flex items-center justify-between py-1">
-                    <span className="text-sm text-[#333333]">{a.users?.name}</span>
-                    <Badge status={a.status} />
-                  </div>
-                ))}
+              <div className="space-y-2">
+                {attendance.map((a: any) => {
+                  const payStatus = getPaymentStatus(a.user_id)
+                  return (
+                    <div key={a.id} className="flex items-center justify-between py-1 border-b border-[#DDDDDD] last:border-0">
+                      <div className="space-y-0.5">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-medium text-[#333333]">{a.users?.name}</span>
+                          <Badge status={a.status} />
+                        </div>
+                        {a.users?.phone && a.status === 'confirmed' && (
+                          <BizumLink phone={a.users.phone} amount={match.price_per_player} />
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium text-[#333333]">{formatCurrency(match.price_per_player)}</span>
+                        {payStatus === 'paid' ? (
+                          <span className="text-sm text-green-600 font-medium">✅ Pagat</span>
+                        ) : payStatus === 'pending' ? (
+                          <span className="text-sm text-[#C00000] font-medium">❌ Pend.</span>
+                        ) : a.status === 'confirmed' ? (
+                          <span className="text-sm text-[#C00000] font-medium">❌ Pend.</span>
+                        ) : null}
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             ) : (
               <p className="text-sm text-[#666666]">Ningú ha respost encara.</p>

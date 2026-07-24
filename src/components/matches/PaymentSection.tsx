@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { BizumLink } from '@/components/ui/BizumLink'
 import { formatCurrency } from '@/lib/utils'
 import type { Match } from '@/lib/types'
 
@@ -73,10 +74,15 @@ export function PaymentSection({ match, payments, isAdmin, onUpdate }: PaymentSe
         ) : (
           payments.map((p: any) => (
             <div key={p.id} className="flex items-center justify-between py-1">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-[#333333]">{p.users?.name}</span>
-                <Badge status={p.status} />
-                {p.status === 'paid' && <Badge status={p.method} />}
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-[#333333]">{p.users?.name}</span>
+                  <Badge status={p.status} />
+                  {p.status === 'paid' && <Badge status={p.method} />}
+                </div>
+                {p.users?.phone && p.status === 'pending' && (
+                  <BizumLink phone={p.users.phone} amount={p.amount} />
+                )}
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-[#333333]">{formatCurrency(p.amount)}</span>

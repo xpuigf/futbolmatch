@@ -3,6 +3,7 @@
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { BizumLink } from '@/components/ui/BizumLink'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 
@@ -47,6 +48,7 @@ export function DebtList({ debts, isAdmin, onUpdate }: DebtListProps) {
                 <span>·</span>
                 <span>{formatDate(debt.matches?.date)}</span>
               </div>
+              {debt.users?.phone && <BizumLink phone={debt.users.phone} amount={debt.amount} />}
             </div>
             <div className="flex items-center gap-2">
               <span className="font-semibold text-[#C00000]">

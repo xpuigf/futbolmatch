@@ -1,8 +1,10 @@
 'use client'
 
+import { useState } from 'react'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
 import { useUser } from '@/hooks/useUser'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -10,6 +12,19 @@ import { useRouter } from 'next/navigation'
 export default function ProfilePage() {
   const { user, isAdmin } = useUser()
   const router = useRouter()
+  const [phone, setPhone] = useState(user?.phone || '')
+  const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
+
+  const handleSavePhone = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSaving(true)
+    const supabase = createClient()
+    await supabase.from('users').update({ phone }).eq('id', user?.id)
+    setSaving(false)
+    setSaved(true)
+    setTimeout(() => setSaved(false), 2000)
+  }
 
   const handleSignOut = async () => {
     const supabase = createClient()
@@ -36,6 +51,28 @@ export default function ProfilePage() {
                 </span>
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="space-y-3">
+            <h3 className="font-semibold text-[#333333]">Mòbil per a Bizum</h3>
+            <form onSubmit={handleSavePhone} className="flex gap-2">
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="612345678"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="flex-1"
+              />
+              <Button type="submit" loading={saving}>
+                {saved ? 'Desat' : 'Guardar'}
+              </Button>
+            </form>
+            <p className="text-xs text-[#666666]">
+              Aquest número es mostrarà perquè els altres jugadors et puguin enviar Bizum.
+            </p>
           </CardContent>
         </Card>
 

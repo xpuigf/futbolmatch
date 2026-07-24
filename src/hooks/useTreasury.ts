@@ -40,7 +40,7 @@ export function usePendingDebts() {
     const supabase = createClient()
     supabase
       .from('payments')
-      .select('*, users!inner(name, email), matches!inner(date, location, price_per_player)')
+      .select('*, users!inner(name, email, phone), matches!inner(date, location, price_per_player)')
       .eq('status', 'pending')
       .then(({ data }: any) => {
         if (data) setDebts(data)
@@ -49,4 +49,60 @@ export function usePendingDebts() {
   }, [])
 
   return { debts, loading }
+}
+
+export function usePlayerBalances() {
+  const [players, setPlayers] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const supabase = createClient()
+    Promise.all([
+      supabase.from('users').select('*'),
+      supabase.from('matches').select('*'),
+      supabase.from('attendance').select('*, users(name, email, phone)'),
+      supabase.from('payments').select('*, users(name, email, phone)'),
+    ]).then(([usersRes, matchesRes, attendanceRes, paymentsRes]) => {
+      const users = usersRes.data || []
+      const matches: any[] = matchesRes.data || []
+      const allAttendance: any[] = attendanceRes.data || []
+      const allPayments: any[] = paymentsRes.data || []
+
+      const result = users.map((u: any) => {
+        let totalOwed = 0
+        let totalPaid = 0
+
+        matches.forEach((m: any) => {
+          const attended = allAttendance.find(
+            (a: any) => a.user_id === u.id && a.match_id === m.id && a.status === 'confirmed'
+          )
+          if (attended) {
+            if (m.status !== 'cancelled') {
+              totalOwed += m.price_per_player
+            }
+          }
+        })
+
+        allPayments
+          .filter((p: any) => p.user_id === u.id && p.status === 'paid')
+          .forEach((p: any) => {
+            totalPaid += p.amount
+          })
+
+        const balance = totalPaid - totalOwed
+
+        return {
+          ...u,
+          total_owed: totalOwed,
+          total_paid: totalPaid,
+          balance,
+        }
+      })
+
+      setPlayers(result)
+      setLoading(false)
+    })
+  }, [])
+
+  return { players, loading }
 }

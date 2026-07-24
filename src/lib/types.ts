@@ -3,6 +3,7 @@ export interface User {
   email: string
   name: string
   role: 'admin' | 'player'
+  phone?: string
   created_at: string
 }
 
@@ -50,11 +51,11 @@ export interface PotTransaction {
 
 // View models (joined queries)
 export interface AttendanceWithUser extends Attendance {
-  users: Pick<User, 'name' | 'email'>
+  users: Pick<User, 'name' | 'email' | 'phone'>
 }
 
 export interface PaymentWithUser extends Payment {
-  users: Pick<User, 'name' | 'email'>
+  users: Pick<User, 'name' | 'email' | 'phone'>
 }
 
 export interface MatchWithDetails extends Match {
