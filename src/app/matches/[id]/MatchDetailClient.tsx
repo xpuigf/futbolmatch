@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { BizumLink } from '@/components/ui/BizumLink'
+import { BizumPayButton } from '@/components/ui/BizumPayButton'
 import { AttendanceToggle } from '@/components/matches/AttendanceToggle'
 import { PaymentSection } from '@/components/matches/PaymentSection'
 import { useUser } from '@/hooks/useUser'
@@ -22,18 +23,21 @@ export default function MatchDetailClient() {
   const [match, setMatch] = useState<Match | null>(null)
   const [attendance, setAttendance] = useState<any[]>([])
   const [payments, setPayments] = useState<any[]>([])
+  const [adminPhone, setAdminPhone] = useState('')
   const [loading, setLoading] = useState(true)
 
   const fetchData = useCallback(async () => {
     const supabase = createClient()
-    const [matchRes, attendanceRes, paymentsRes] = await Promise.all([
+    const [matchRes, attendanceRes, paymentsRes, adminRes] = await Promise.all([
       supabase.from('matches').select('*').eq('id', matchId).single(),
       supabase.from('attendance').select('*, users(name, email, phone)').eq('match_id', matchId).then((r: any) => r.data || []),
       supabase.from('payments').select('*, users(name, email, phone)').eq('match_id', matchId).then((r: any) => r.data || []),
+      supabase.from('users').select('phone').eq('role', 'admin').single().then((r: any) => r.data?.phone || '675777888'),
     ])
     setMatch(matchRes.data)
     setAttendance(attendanceRes)
     setPayments(paymentsRes)
+    setAdminPhone(adminRes)
     setLoading(false)
   }, [matchId])
 
@@ -86,6 +90,26 @@ export default function MatchDetailClient() {
           onUpdate={fetchData}
         />
 
+        {myAttendance?.status === 'confirmed' && (
+          <Card>
+            <CardContent className="space-y-2">
+              <h3 className="font-semibold text-[#333333]">El teu pagament</h3>
+              {getPaymentStatus(user?.id || '') === 'paid' ? (
+                <div className="flex items-center gap-2 text-green-600 text-sm font-medium">
+                  <span>✅</span>
+                  <span>Pagat — {formatCurrency(match.price_per_player)}</span>
+                </div>
+              ) : (
+                <BizumPayButton
+                  adminPhone={adminPhone}
+                  amount={match.price_per_player}
+                  concepte={`Partit: ${match.location}`}
+                />
+              )}
+            </CardContent>
+          </Card>
+        )}
+
         <Card>
           <CardContent className="space-y-3">
             <h3 className="font-semibold text-[#333333]">Assistències</h3>
@@ -98,27 +122,32 @@ export default function MatchDetailClient() {
               <div className="space-y-2">
                 {attendance.map((a: any) => {
                   const payStatus = getPaymentStatus(a.user_id)
+                  const isCurrentUser = a.user_id === user?.id
                   return (
-                    <div key={a.id} className="flex items-center justify-between py-1 border-b border-[#DDDDDD] last:border-0">
-                      <div className="space-y-0.5">
+                    <div key={a.id} className="py-2 border-b border-[#DDDDDD] last:border-0">
+                      <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-medium text-[#333333]">{a.users?.name}</span>
                           <Badge status={a.status} />
                         </div>
-                        {a.users?.phone && a.status === 'confirmed' && (
-                          <BizumLink phone={a.users.phone} amount={match.price_per_player} />
-                        )}
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-[#333333]">{formatCurrency(match.price_per_player)}</span>
+                          {payStatus === 'paid' ? (
+                            <span className="text-sm text-green-600 font-medium">✅ Pagat</span>
+                          ) : a.status === 'confirmed' ? (
+                            <span className="text-sm text-[#C00000] font-medium">❌ Pend.</span>
+                          ) : null}
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-medium text-[#333333]">{formatCurrency(match.price_per_player)}</span>
-                        {payStatus === 'paid' ? (
-                          <span className="text-sm text-green-600 font-medium">✅ Pagat</span>
-                        ) : payStatus === 'pending' ? (
-                          <span className="text-sm text-[#C00000] font-medium">❌ Pend.</span>
-                        ) : a.status === 'confirmed' ? (
-                          <span className="text-sm text-[#C00000] font-medium">❌ Pend.</span>
-                        ) : null}
-                      </div>
+                      {a.status === 'confirmed' && payStatus !== 'paid' && !isCurrentUser && (
+                        <div className="mt-1.5 pl-2">
+                          <BizumPayButton
+                            adminPhone={adminPhone}
+                            amount={match.price_per_player}
+                            concepte={`Partit: ${match.location}`}
+                          />
+                        </div>
+                      )}
                     </div>
                   )
                 })}

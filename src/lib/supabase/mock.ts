@@ -5,7 +5,7 @@ const mockUser: User = {
   email: 'admin@futbolmatch.cat',
   name: 'Admin Prova',
   role: 'admin',
-  phone: '612345678',
+  phone: '675777888',
   created_at: new Date().toISOString(),
 }
 
@@ -30,20 +30,20 @@ const mockMatches: Match[] = [
 
 const mockAttendance: Record<string, any[]> = {
   'match-1': [
-    { id: 'a1', match_id: 'match-1', user_id: 'mock-user-1', status: 'confirmed', created_at: subDays(1), users: { name: 'Admin Prova', email: 'admin@futbolmatch.cat', phone: '612345678' } },
+    { id: 'a1', match_id: 'match-1', user_id: 'mock-user-1', status: 'confirmed', created_at: subDays(1), users: { name: 'Admin Prova', email: 'admin@futbolmatch.cat', phone: '675777888' } },
     { id: 'a2', match_id: 'match-1', user_id: 'mock-user-2', status: 'confirmed', created_at: subDays(1), users: { name: 'Gerard Piqué', email: 'player1@test.cat', phone: '622345679' } },
     { id: 'a3', match_id: 'match-1', user_id: 'mock-user-3', status: 'confirmed', created_at: subDays(1), users: { name: 'Leo Messi', email: 'player2@test.cat', phone: '632345680' } },
     { id: 'a4', match_id: 'match-1', user_id: 'mock-user-4', status: 'pending', created_at: subDays(1), users: { name: 'Pedri González', email: 'player3@test.cat', phone: '642345681' } },
     { id: 'a5', match_id: 'match-1', user_id: 'mock-user-5', status: 'declined', created_at: subDays(1), users: { name: 'Gavi', email: 'player4@test.cat', phone: '652345682' } },
   ],
   'match-2': [
-    { id: 'a6', match_id: 'match-2', user_id: 'mock-user-1', status: 'confirmed', created_at: subDays(7), users: { name: 'Admin Prova', email: 'admin@futbolmatch.cat', phone: '612345678' } },
+    { id: 'a6', match_id: 'match-2', user_id: 'mock-user-1', status: 'confirmed', created_at: subDays(7), users: { name: 'Admin Prova', email: 'admin@futbolmatch.cat', phone: '675777888' } },
     { id: 'a7', match_id: 'match-2', user_id: 'mock-user-2', status: 'confirmed', created_at: subDays(7), users: { name: 'Gerard Piqué', email: 'player1@test.cat', phone: '622345679' } },
     { id: 'a8', match_id: 'match-2', user_id: 'mock-user-3', status: 'confirmed', created_at: subDays(7), users: { name: 'Leo Messi', email: 'player2@test.cat', phone: '632345680' } },
     { id: 'a9', match_id: 'match-2', user_id: 'mock-user-4', status: 'confirmed', created_at: subDays(7), users: { name: 'Pedri González', email: 'player3@test.cat', phone: '642345681' } },
   ],
   'match-3': [
-    { id: 'a10', match_id: 'match-3', user_id: 'mock-user-1', status: 'confirmed', created_at: subDays(14), users: { name: 'Admin Prova', email: 'admin@futbolmatch.cat', phone: '612345678' } },
+    { id: 'a10', match_id: 'match-3', user_id: 'mock-user-1', status: 'confirmed', created_at: subDays(14), users: { name: 'Admin Prova', email: 'admin@futbolmatch.cat', phone: '675777888' } },
     { id: 'a11', match_id: 'match-3', user_id: 'mock-user-2', status: 'confirmed', created_at: subDays(14), users: { name: 'Gerard Piqué', email: 'player1@test.cat', phone: '622345679' } },
     { id: 'a12', match_id: 'match-3', user_id: 'mock-user-5', status: 'confirmed', created_at: subDays(14), users: { name: 'Gavi', email: 'player4@test.cat', phone: '652345682' } },
   ],
@@ -52,13 +52,13 @@ const mockAttendance: Record<string, any[]> = {
 
 const mockPayments: Record<string, any[]> = {
   'match-1': [
-    { id: 'p1', match_id: 'match-1', user_id: 'mock-user-1', amount: 5, method: 'bizum', status: 'paid', paid_at: subDays(1), created_at: subDays(2), users: { name: 'Admin Prova', email: 'admin@futbolmatch.cat', phone: '612345678' } },
+    { id: 'p1', match_id: 'match-1', user_id: 'mock-user-1', amount: 5, method: 'bizum', status: 'paid', paid_at: subDays(1), created_at: subDays(2), users: { name: 'Admin Prova', email: 'admin@futbolmatch.cat', phone: '675777888' } },
     { id: 'p2', match_id: 'match-1', user_id: 'mock-user-2', amount: 5, method: 'cash', status: 'paid', paid_at: subDays(1), created_at: subDays(2), users: { name: 'Gerard Piqué', email: 'player1@test.cat', phone: '622345679' } },
     { id: 'p3', match_id: 'match-1', user_id: 'mock-user-3', amount: 5, method: 'bizum', status: 'pending', paid_at: null, created_at: subDays(2), users: { name: 'Leo Messi', email: 'player2@test.cat', phone: '632345680' } },
     { id: 'p4', match_id: 'match-1', user_id: 'mock-user-4', amount: 5, method: 'bizum', status: 'pending', paid_at: null, created_at: subDays(2), users: { name: 'Pedri González', email: 'player3@test.cat', phone: '642345681' } },
   ],
   'match-2': [
-    { id: 'p5', match_id: 'match-2', user_id: 'mock-user-1', amount: 3.50, method: 'bizum', status: 'paid', paid_at: subDays(6), created_at: subDays(7), users: { name: 'Admin Prova', email: 'admin@futbolmatch.cat', phone: '612345678' } },
+    { id: 'p5', match_id: 'match-2', user_id: 'mock-user-1', amount: 3.50, method: 'bizum', status: 'paid', paid_at: subDays(6), created_at: subDays(7), users: { name: 'Admin Prova', email: 'admin@futbolmatch.cat', phone: '675777888' } },
     { id: 'p6', match_id: 'match-2', user_id: 'mock-user-2', amount: 3.50, method: 'cash', status: 'paid', paid_at: subDays(6), created_at: subDays(7), users: { name: 'Gerard Piqué', email: 'player1@test.cat', phone: '622345679' } },
     { id: 'p7', match_id: 'match-2', user_id: 'mock-user-3', amount: 3.50, method: 'cash', status: 'paid', paid_at: subDays(6), created_at: subDays(7), users: { name: 'Leo Messi', email: 'player2@test.cat', phone: '632345680' } },
     { id: 'p8', match_id: 'match-2', user_id: 'mock-user-4', amount: 3.50, method: 'bizum', status: 'pending', paid_at: null, created_at: subDays(7), users: { name: 'Pedri González', email: 'player3@test.cat', phone: '642345681' } },
